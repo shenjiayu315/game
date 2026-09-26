@@ -1,0 +1,72 @@
+id: F05
+kind: fixed
+title: 第一份供奉
+body:
+  - 芒在根旁放下一只盛水的粗陶碗，又压上一束新折的叶。
+  - 她没有请求，只是等待。
+phaseIds: [private-offering]
+priority: 100
+once: true
+trigger:
+  any:
+    - all:
+        - relationAtLeast: { character: mang, stat: resonance, value: 30 }
+        - any:
+            - relationAtLeast: { character: mang, stat: trust, value: 18 }
+            - relationAtLeast: { character: mang, stat: fear, value: 18 }
+    - dateAtLeast: 28
+deadlineDay: 28
+options:
+  - id: accept-water
+    label: 接受清水与叶片
+    preview: 信徒+1，信仰收入+0.2/日，芒信任+6。
+    effects:
+      - changeBelievers: 1
+      - setWorshipVisibility: personal
+      - addFaithSource: { id: mang-water-leaves, label: 芒的清水与叶片, amount: 0.2, module: faith }
+      - changeCharacter: { character: mang, stat: trust, amount: 6 }
+      - openModule: { module: faith, access: partial }
+      - openModule: { module: tribe, access: hinted }
+      - addTendency: guardian
+    resultText:
+      - 水与叶被留在根边。第二天起，微弱但稳定的信仰开始流向树心。
+  - id: return-flower
+    label: 让根须归还一朵花
+    preview: 信仰收入较低，但芒信任和感应明显提高。
+    effects:
+      - changeBelievers: 1
+      - setWorshipVisibility: personal
+      - addFaithSource: { id: mang-returned-flower, label: 芒的温和供奉, amount: 0.1, module: faith }
+      - changeCharacter: { character: mang, stat: trust, amount: 10 }
+      - changeCharacter: { character: mang, stat: resonance, amount: 5 }
+      - openModule: { module: faith, access: partial }
+      - openModule: { module: tribe, access: hinted }
+      - addTendency: guardian
+    resultText:
+      - 她带走那朵花，像带走一个不伤人的回答。
+  - id: demand-more
+    label: 显示必须献上更多
+    preview: 信仰收入+0.3/日，芒恐惧+8。
+    effects:
+      - changeBelievers: 1
+      - setWorshipVisibility: personal
+      - addFaithSource: { id: mang-demanded-gift, label: 芒的畏惧供奉, amount: 0.3, module: faith }
+      - changeCharacter: { character: mang, stat: fear, amount: 8 }
+      - openModule: { module: faith, access: partial }
+      - openModule: { module: tribe, access: hinted }
+      - addTendency: dread
+    resultText:
+      - 芒理解为供奉不足。她会再来，也会带着更深的畏惧。
+  - id: silent-accept
+    label: 沉默接受
+    preview: 信仰收入+0.15/日，感应+3，沉默倾向+1。
+    effects:
+      - changeBelievers: 1
+      - setWorshipVisibility: personal
+      - addFaithSource: { id: mang-silent-gift, label: 芒的沉默供奉, amount: 0.15, module: faith }
+      - changeCharacter: { character: mang, stat: resonance, amount: 3 }
+      - openModule: { module: faith, access: partial }
+      - openModule: { module: tribe, access: hinted }
+      - addTendency: silent
+    resultText:
+      - 陶碗留在原处，沉默本身成了她理解神意的方式。

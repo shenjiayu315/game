@@ -1,0 +1,32 @@
+id: R05
+kind: random
+title: 孩子的低声祈求
+body:
+  - 一个孩子趁大人不注意靠近树根，低声求你让伤者少疼一点。
+phaseIds: [tribe-arrival, tribe-management]
+priority: 10
+once: true
+weight: 2
+trigger:
+  moduleAccessAtLeast: { module: tribe, level: partial }
+options:
+  - id: answer
+    label: 回应孩子
+    preview: 神力-3，信徒+1。
+    effects:
+      - changePower: -3
+      - changeBelievers: 1
+      - changeCollectiveFaith: 2
+    resultText: [孩子不懂神意，却懂得疼痛轻了一点。]
+  - id: send-mang
+    label: 交给芒解释
+    preview: 芒影响力+3。
+    effects:
+      - changeCharacter: { character: mang, stat: influence, amount: 3 }
+    resultText: [芒把孩子带走，也把这个请求变成她能解释的故事。]
+  - id: silent
+    label: 沉默
+    preview: 无即时效果。
+    effects:
+      - addTendency: silent
+    resultText: [孩子等了一会儿，最终自己跑回人群。]

@@ -1,0 +1,37 @@
+id: F01
+kind: fixed
+title: 神树初醒
+body:
+  - 黑暗中最先恢复的不是视线，而是埋在泥土里的重量。
+  - 雨水沿树皮落下，你能感觉到某种力量正在缓慢聚集。
+phaseIds: [tree-awakening]
+priority: 100
+once: true
+trigger:
+  phase: tree-awakening
+options:
+  - id: grip-soil
+    label: 先让根须抓紧土地
+    preview: 两个未知方向探索各+5，偏向守护。
+    effects:
+      - changeRegionExploration: { region: clear-stream, amount: 5 }
+      - changeRegionExploration: { region: south-slope, amount: 5 }
+      - addTendency: guardian
+    resultText:
+      - 细根在黑土中重新扣紧，远处潮意与兽道都短暂清晰了一瞬。
+  - id: gather-aura
+    label: 收拢散失的灵气
+    preview: 神力+3，为之后的神迹保留空间。
+    effects:
+      - changePower: 3
+    resultText:
+      - 散失的灵气回到树心，你暂时没有看得更远，却更能承受下一次出手。
+  - id: listen-woods
+    label: 聆听林中的动静
+    preview: 感知等级临时提高，沉默倾向+1。
+    effects:
+      - changePerception: 1
+      - addTendency: silent
+      - setFlag: { flag: early-random-clue, value: true }
+    resultText:
+      - 你没有动作，只把风、足音与雨声全部收入枝叶。

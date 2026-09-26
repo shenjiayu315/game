@@ -1,0 +1,64 @@
+id: F09
+kind: fixed
+title: 谁来解释神意
+body:
+  - 芒说她听懂了树叶的方向，岑却认为那只是风。
+  - 争执并不只关于神意，也关于今后由谁替众人作出解释。
+phaseIds: [tribe-management]
+priority: 80
+once: true
+trigger:
+  any:
+    - tribePlansAtLeast: 1
+    - dateAtLeast: 48
+deadlineDay: 50
+options:
+  - id: back-mang
+    label: 明确回应芒
+    preview: 神力-4；芒影响力和信任提高，解释权集中。
+    requirements:
+      resourceAtLeast: { resource: power, value: 4 }
+    effects:
+      - changePower: -4
+      - changeCharacter: { character: mang, stat: influence, amount: 8 }
+      - changeCharacter: { character: mang, stat: trust, amount: 5 }
+      - changeCharacter: { character: cen, stat: trust, amount: -3 }
+      - changeFlag: { flag: interpretation-control, amount: 10 }
+    resultText:
+      - 芒获得了明显优势。她更敢解释神意，岑则开始担心解释权落到一个人手中。
+  - id: answer-both
+    label: 同时回应两人
+    preview: 神力-6；两人信任提高，稳定+3。
+    requirements:
+      resourceAtLeast: { resource: power, value: 6 }
+    effects:
+      - changePower: -6
+      - changeCharacter: { character: mang, stat: trust, amount: 4 }
+      - changeCharacter: { character: cen, stat: trust, amount: 4 }
+      - changeStability: 3
+      - changeFlag: { flag: interpretation-control, amount: -5 }
+      - addTendency: guardian
+    resultText:
+      - 两人都得到回应。神意没有完全属于任何人，部落因此少了一场公开争执。
+  - id: threaten-both
+    label: 以威压终止争执
+    preview: 神力-5；两人恐惧提高，稳定-2，集体恐惧+5。
+    requirements:
+      resourceAtLeast: { resource: power, value: 5 }
+    effects:
+      - changePower: -5
+      - changeCharacter: { character: mang, stat: fear, amount: 6 }
+      - changeCharacter: { character: cen, stat: fear, amount: 6 }
+      - changeStability: -2
+      - changeCollectiveFear: 5
+      - addTendency: dread
+    resultText:
+      - 争执停止得很快。没人敢继续吵，但恐惧压住的不是理解。
+  - id: stay-silent
+    label: 保持沉默
+    preview: 影响力较高者获得解释优势，沉默倾向+1。
+    effects:
+      - changeFlag: { flag: silent-interpretation, amount: 1 }
+      - addTendency: silent
+    resultText:
+      - 沉默留下空白。芒和岑都试图填补它，部落记住的是谁说得更有用。

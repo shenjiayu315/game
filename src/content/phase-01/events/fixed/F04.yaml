@@ -1,0 +1,67 @@
+id: F04
+kind: fixed
+title: 她再次回来
+body:
+  - 数日后，那个女人独自回到树下。
+  - 她把手掌贴在旧伤和树皮之间，低声重复一个你尚不能理解的称呼。
+phaseIds: [private-offering]
+priority: 90
+once: true
+trigger:
+  any:
+    - dateAtLeast: 16
+    - relationAtLeast: { character: mang, stat: resonance, value: 15 }
+deadlineDay: 20
+options:
+  - id: leaf-bow
+    label: 让叶片在无风时垂向她
+    preview: 神力-3；感应+12、信任+8。
+    requirements:
+      resourceAtLeast: { resource: power, value: 3 }
+    effects:
+      - changePower: -3
+      - setCharacterKnowledge: { character: mang, knowledge: known }
+      - changeCharacter: { character: mang, stat: resonance, amount: 12 }
+      - changeCharacter: { character: mang, stat: trust, amount: 8 }
+      - addMemory: { character: mang, text: 无风时树叶向她垂下。 }
+      - addTendency: guardian
+    resultText:
+      - 她说出了自己的名字。芒开始相信回应不是偶然。
+  - id: root-crack
+    label: 让根须在她脚边写下裂痕
+    preview: 神力-3；感应+12、恐惧+8。
+    requirements:
+      resourceAtLeast: { resource: power, value: 3 }
+    effects:
+      - changePower: -3
+      - setCharacterKnowledge: { character: mang, knowledge: known }
+      - changeCharacter: { character: mang, stat: resonance, amount: 12 }
+      - changeCharacter: { character: mang, stat: fear, amount: 8 }
+      - addMemory: { character: mang, text: 根须在脚边裂开，像一条命令。 }
+      - addTendency: dread
+    resultText:
+      - 她说出了名字，却不敢靠得更近。芒知道树下的意志会要求敬畏。
+  - id: dream
+    label: 送入一段模糊梦境
+    preview: 神力-5；感应大幅提高，信任与恐惧都增加。
+    requirements:
+      resourceAtLeast: { resource: power, value: 5 }
+    effects:
+      - changePower: -5
+      - setCharacterKnowledge: { character: mang, knowledge: known }
+      - changeCharacter: { character: mang, stat: resonance, amount: 18 }
+      - changeCharacter: { character: mang, stat: trust, amount: 5 }
+      - changeCharacter: { character: mang, stat: fear, amount: 3 }
+      - addMemory: { character: mang, text: 她梦见根须指向族人的营火。 }
+    resultText:
+      - 芒醒来后久久沉默。梦境让她更确信你拥有意识。
+  - id: listen
+    label: 只聆听她的低语
+    preview: 解锁姓名和部落缺粮线索；沉默倾向+1。
+    effects:
+      - setCharacterKnowledge: { character: mang, knowledge: known }
+      - openModule: { module: tribe, access: hinted }
+      - setFlag: { flag: tribe-hunger-known, value: true }
+      - addTendency: silent
+    resultText:
+      - 你没有回应，但她的低语泄露了名字、饥饿和她所属的人群。

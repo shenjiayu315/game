@@ -1,0 +1,84 @@
+id: F07
+kind: fixed
+title: 证明你的存在
+body:
+  - 溪原部并不缺少传说，他们缺少食物，也带着伤者。
+  - 岑要求一个能够被所有人看见的回答。
+phaseIds: [tribe-arrival]
+priority: 100
+once: true
+trigger:
+  any:
+    - eventHandled: F06
+    - dateAtLeast: 42
+deadlineDay: 42
+options:
+  - id: heal-heavy
+    label: 治疗最重的伤者
+    preview: 神力-12；伤病-1，集体信仰大幅提高。
+    requirements:
+      resourceAtLeast: { resource: power, value: 12 }
+    effects:
+      - changePower: -12
+      - changeInjuries: -1
+      - changeCollectiveFaith: 15
+      - changeCharacter: { character: cen, stat: trust, amount: 8 }
+      - changePowerCap: 8
+      - setTreeStage: 受祀
+      - openModule: { module: tribe, access: full }
+      - openModule: { module: faith, access: partial }
+      - setCharacterKnowledge: { character: cen, knowledge: known }
+      - addTendency: guardian
+      - addTendency: guardian
+    resultText:
+      - 伤者在众人面前缓过气来。溪原部不一定信服，却无法再说树没有意志。
+  - id: point-stream
+    label: 指出清溪的方向
+    preview: 需要清溪至少被感知；神力-8，清溪已知，生产+0.3/日。
+    requirements:
+      regionKnowledgeAtLeast: { region: clear-stream, level: sensed }
+    effects:
+      - changePower: -8
+      - setRegionKnowledge: { region: clear-stream, knowledge: known }
+      - changeFoodProduction: 0.3
+      - changeCollectiveFaith: 10
+      - changePowerCap: 8
+      - setTreeStage: 受祀
+      - openModule: { module: tribe, access: full }
+      - openModule: { module: faith, access: partial }
+      - setCharacterKnowledge: { character: cen, knowledge: known }
+    resultText:
+      - 根须指向低地水声。岑派人前去确认，带回的不只是水，还有对神树的承认。
+  - id: drive-beasts
+    label: 驱走盘踞猎场的野兽
+    preview: 需要南坡痕迹；神力-9，南坡探索+30，信仰与恐惧提高。
+    requirements:
+      regionKnowledgeAtLeast: { region: south-slope, level: trace }
+    effects:
+      - changePower: -9
+      - changeRegionExploration: { region: south-slope, amount: 30 }
+      - changeCollectiveFear: 10
+      - changeCollectiveFaith: 7
+      - changePowerCap: 8
+      - setTreeStage: 受祀
+      - openModule: { module: tribe, access: full }
+      - openModule: { module: faith, access: partial }
+      - setCharacterKnowledge: { character: cen, knowledge: known }
+      - addTendency: dread
+    resultText:
+      - 南坡传来野兽惊散的动静。部落获得答案，也获得了畏惧。
+  - id: refuse-proof
+    label: 拒绝证明
+    preview: 让芒自行解释；岑信任下降，但流程仍推进。
+    effects:
+      - changeCharacter: { character: mang, stat: influence, amount: 8 }
+      - changeCharacter: { character: cen, stat: trust, amount: -4 }
+      - changePowerCap: 8
+      - setTreeStage: 受祀
+      - openModule: { module: tribe, access: full }
+      - openModule: { module: faith, access: partial }
+      - setCharacterKnowledge: { character: cen, knowledge: known }
+      - addTendency: silent
+      - addTendency: silent
+    resultText:
+      - 你没有证明自己。芒替你说话，岑保留怀疑，但部落已经绕不开树下发生过的事。

@@ -1,0 +1,69 @@
+id: F03
+kind: fixed
+title: 树下的伤者
+body:
+  - 一个年轻女人跌进树影。她的腿被撕开，身后灌木仍在摇动。
+  - 她握着石刃，却已经没有力气再跑。
+phaseIds: [mang-arrival]
+priority: 100
+once: true
+trigger:
+  phase: mang-arrival
+options:
+  - id: heal-wound
+    label: 以灵气封住伤口
+    preview: 神力-8；感应、信任大幅提高。
+    requirements:
+      resourceAtLeast: { resource: power, value: 8 }
+    effects:
+      - changePower: -8
+      - setCharacterKnowledge: { character: mang, knowledge: mentioned }
+      - changeCharacter: { character: mang, stat: resonance, amount: 20 }
+      - changeCharacter: { character: mang, stat: trust, amount: 18 }
+      - addMemory: { character: mang, text: 伤口在树下合拢。 }
+      - addTendency: guardian
+      - addTendency: guardian
+    resultText:
+      - 灵气收束住伤口，她惊恐地看着树皮，像第一次确认树会回应人。
+  - id: raise-roots
+    label: 升起根须遮住她
+    preview: 神力-4；驱散追赶者，信任提高并留下敬畏。
+    requirements:
+      resourceAtLeast: { resource: power, value: 4 }
+    effects:
+      - changePower: -4
+      - setCharacterKnowledge: { character: mang, knowledge: mentioned }
+      - changeCharacter: { character: mang, stat: resonance, amount: 14 }
+      - changeCharacter: { character: mang, stat: trust, amount: 10 }
+      - changeCharacter: { character: mang, stat: fear, amount: 3 }
+      - addMemory: { character: mang, text: 根须在追赶者前升起。 }
+      - addTendency: guardian
+    resultText:
+      - 根须拱起，挡住兽影。她活了下来，也记住这不是普通树影。
+  - id: break-trees
+    label: 折断树木，惊退野兽
+    preview: 神力-6；若已感知野兽实际消耗更低，恐惧大幅提高。
+    requirements:
+      resourceAtLeast: { resource: power, value: 4 }
+    effects:
+      - changePower: -6
+      - setCharacterKnowledge: { character: mang, knowledge: mentioned }
+      - changeCharacter: { character: mang, stat: resonance, amount: 18 }
+      - changeCharacter: { character: mang, stat: fear, amount: 15 }
+      - changeCharacter: { character: mang, stat: trust, amount: 3 }
+      - addMemory: { character: mang, text: 野兽被树木折断的巨响惊退。 }
+      - addTendency: dread
+      - addTendency: dread
+    resultText:
+      - 树干断裂的声音像惩罚。她得救了，但看向你的眼神多了畏惧。
+  - id: stay-silent
+    label: 保持沉默
+    preview: 不消耗神力；感应少量提高，沉默倾向+2。
+    effects:
+      - setCharacterKnowledge: { character: mang, knowledge: mentioned }
+      - changeCharacter: { character: mang, stat: resonance, amount: 5 }
+      - addMemory: { character: mang, text: 她在沉默树影下活过了最危险的一刻。 }
+      - addTendency: silent
+      - addTendency: silent
+    resultText:
+      - 你没有救她，也没有驱逐野兽。她靠自己熬过这一刻，却始终记得树下的安静。

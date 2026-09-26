@@ -1,0 +1,35 @@
+id: R08
+kind: random
+title: 有人割取树皮
+body:
+  - 有人偷偷割取树皮，说那能带来庇护。
+phaseIds: [tribe-management]
+priority: 10
+once: true
+weight: 1
+trigger:
+  moduleAccessAtLeast: { module: faith, level: full }
+options:
+  - id: heal-warning
+    label: 治疗并警告
+    preview: 神力-3，集体信仰+3。
+    effects:
+      - changePower: -3
+      - changeCollectiveFaith: 3
+      - addTendency: guardian
+    resultText: [伤口合拢，割树皮的人也明白庇护不是这样取得。]
+  - id: hurt
+    label: 伤害来者
+    preview: 神力-4，集体恐惧+8。
+    effects:
+      - changePower: -4
+      - changeCollectiveFear: 8
+      - addTendency: dread
+    resultText: [根须抽痛了他的手。人群学会了不该碰树身。]
+  - id: allow
+    label: 放任
+    preview: 树身灵气短暂受损。
+    effects:
+      - addAuraSource: { id: bark-wound, label: 树皮伤口, amount: -0.1, module: tree, expiresOn: 5 }
+      - addTendency: silent
+    resultText: [伤痕留在树身，微弱灵气从那里漏出。]

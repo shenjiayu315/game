@@ -1,0 +1,31 @@
+id: R01
+kind: random
+title: 树洞里的微光
+body:
+  - 雨后树洞深处浮出一点微光，像被困住的旧灵气。
+phaseIds: [roots-in-woods]
+priority: 10
+once: true
+weight: 2
+trigger:
+  phase: roots-in-woods
+options:
+  - id: absorb
+    label: 吸收微光
+    preview: 神力+2。
+    effects:
+      - changePower: 2
+    resultText: [微光并入树心，神力略有增长。]
+  - id: observe
+    label: 观察它照亮的方向
+    preview: 清溪与南坡探索各+5。
+    effects:
+      - changeRegionExploration: { region: clear-stream, amount: 5 }
+      - changeRegionExploration: { region: south-slope, amount: 5 }
+    resultText: [微光照出两条浅浅方向，根须知道该往哪里试探。]
+  - id: ignore
+    label: 保持沉默
+    preview: 沉默倾向+1。
+    effects:
+      - addTendency: silent
+    resultText: [你没有碰它，微光很快熄灭。]

@@ -1,0 +1,883 @@
+events:
+  - id: awakening
+    kind: fixed
+    title: 黑暗中的第一次意识
+    body:
+      - 你醒在黑土、雨水和树皮之间。根须知道湿冷，树冠知道风，但你还不知道人声意味着什么。
+      - 先承认这份意识，世界才会开始流动。
+    phaseIds: [tree-awakening]
+    priority: 120
+    once: true
+    trigger: { dateAtLeast: 1 }
+    options:
+      - id: awaken
+        label: 让意识沉入根系
+        preview: 开始本局；神树保持初醒状态，日期将在结果后自动流动。
+        relatedModules: [tree]
+        effects:
+          - addHistory: { title: 神树初醒, text: 第一缕意识落入根系。 }
+          - addActivity: { text: 神树在古树林地醒来。 }
+        resultText:
+          - 黑暗并没有退去，却开始有了方向。你的根须听见灵气在泥中缓慢流动。
+  - id: roots-stirring
+    kind: fixed
+    title: 根下同时传来灵气、潮气与震动
+    body:
+      - 第一次雨水深入泥土。根须同时捕捉到灵气、低处潮意，以及不属于野兽的急促震动。
+    phaseIds: [tree-awakening, roots-in-woods]
+    priority: 100
+    once: true
+    trigger: { dateAtLeast: 4 }
+    options:
+      - id: take-aura
+        label: 吞纳聚集的灵气
+        preview: 神力+3；暂不追索外界线索。
+        relatedModules: [tree]
+        effects:
+          - changePower: 3
+          - changeFlag: { flag: delayed-trace, amount: 1 }
+        resultText:
+          - 你吞下雨后浮起的灵气。外界震动逐渐远去，但树身里的力量更实在。
+      - id: follow-moisture
+        label: 让根须追随潮意
+        preview: 神力-1；开放地图线索，清溪探索+18。
+        relatedModules: [map]
+        effects:
+          - changePower: -1
+          - openModule: { module: map, access: partial }
+          - setPhase: roots-in-woods
+          - setRegionKnowledge: { region: clear-stream, knowledge: trace }
+          - changeRegionExploration: { region: clear-stream, amount: 18 }
+        resultText:
+          - 潮意被根须牵住。低处有水，水边也许会有更多生命留下的痕迹。
+      - id: follow-vibration
+        label: 追索急促震动
+        preview: 神力-1；南坡探索+15，人类线索+1。
+        relatedModules: [map, characters]
+        effects:
+          - changePower: -1
+          - openModule: { module: map, access: partial }
+          - setPhase: roots-in-woods
+          - setRegionKnowledge: { region: south-slope, knowledge: trace }
+          - changeRegionExploration: { region: south-slope, amount: 15 }
+          - changeFlag: { flag: human-trace, amount: 1 }
+        resultText:
+          - 那震动急促、凌乱，像逃跑，也像追赶。泥土里第一次有了人类的重量。
+      - id: remain-still
+        label: 暂时不惊动任何东西
+        preview: 不消耗神力；沉默倾向+1，下一次线索更清晰。
+        relatedModules: [tree, characters]
+        effects:
+          - addTendency: silent
+          - changeFlag: { flag: watched-silently, amount: 1 }
+        resultText:
+          - 你没有伸出更远的根。林地在沉默里继续发声。
+  - id: forest-after-rain
+    kind: fixed
+    title: 雨后的林地发生变化
+    body:
+      - 雨后的古树林地气息变重。水流、兽道和腐叶把几条方向推到你的感知边缘。
+    phaseIds: [roots-in-woods]
+    priority: 90
+    once: true
+    trigger: { dateAtLeast: 10 }
+    options:
+      - id: root-water
+        label: 继续追随水意
+        preview: 清溪探索+20；若进度足够，清溪进入感知。
+        relatedModules: [map]
+        effects:
+          - changeRegionExploration: { region: clear-stream, amount: 20 }
+          - setRegionKnowledge: { region: clear-stream, knowledge: sensed }
+        resultText:
+          - 水声不再只是方向。你知道了低处有一片清溪滩，那里能带来水，也会带来足迹。
+      - id: root-slope
+        label: 分辨断草和兽道
+        preview: 南坡探索+20；发现狩猎与危险线索。
+        relatedModules: [map]
+        effects:
+          - changeRegionExploration: { region: south-slope, amount: 20 }
+          - setRegionKnowledge: { region: south-slope, knowledge: trace }
+        resultText:
+          - 南坡的草被反复踩断。兽类从那里经过，偶尔也有人从那里逃过。
+      - id: strengthen-woods
+        label: 稳固古树林地灵气
+        preview: 神力上限+2；古树林地灵气+0.2/日。
+        relatedModules: [tree, map]
+        effects:
+          - changePowerCap: 2
+          - addAuraSource: { id: rain-fed-woods, label: 雨后林地灵气, amount: 0.2, module: map }
+        resultText:
+          - 你不急着离开树下。雨后灵气沉进根须，古树林地变得更像你的身体。
+  - id: blood-in-soil
+    kind: fixed
+    title: 泥土中出现血与脚步
+    body:
+      - 林中出现了血。脚步从南坡方向拖向树下，后面还有更重、更低的震动。
+    phaseIds: [roots-in-woods]
+    priority: 95
+    once: true
+    trigger:
+      all:
+        - dateAtLeast: 18
+        - any:
+            - flag: human-trace
+            - dateAtLeast: 20
+    options:
+      - id: prepare-shelter
+        label: 升起根须准备庇护
+        preview: 神力-3；芒到来时更容易保护她。
+        relatedModules: [tree, characters]
+        effects:
+          - changePower: -3
+          - setFlag: { flag: prepared-shelter, value: true }
+          - openModule: { module: characters, access: hinted }
+        resultText:
+          - 你让浅根从泥中微微抬起。尚未到来的人类不会知道，树已经在等待。
+      - id: watch-footprints
+        label: 记住脚步来处
+        preview: 南坡探索+15；保留神力。
+        relatedModules: [map, characters]
+        effects:
+          - changeRegionExploration: { region: south-slope, amount: 15 }
+          - addTendency: silent
+        resultText:
+          - 你没有惊动逃亡者，只记住脚步、血气和追逐的方向。
+      - id: gather-for-miracle
+        label: 把灵气收回树身
+        preview: 神力+2；准备之后的神迹消耗。
+        relatedModules: [tree]
+        effects:
+          - changePower: 2
+        resultText:
+          - 你把散在根端的灵气收回。若人类真的倒在树下，力量会比线索更重要。
+  - id: mang-wounded
+    kind: fixed
+    title: 树下的伤者
+    body:
+      - 一个年轻女人跌进树影。她的腿被撕开，身后的灌木仍在摇动。
+    phaseIds: [roots-in-woods, mang-arrival]
+    priority: 110
+    once: true
+    trigger: { dateAtLeast: 24 }
+    options:
+      - id: heal-wound
+        label: 以灵气封住伤口
+        preview: 神力-8；认识受伤的陌生人，信任与感应提高。
+        costHint: 神力-8
+        relatedModules: [tree, characters]
+        requirements:
+          resourceAtLeast: { resource: power, value: 8 }
+        effects:
+          - changePower: -8
+          - openModule: { module: characters, access: partial }
+          - setPhase: mang-arrival
+          - setCharacterKnowledge: { character: mang, knowledge: mentioned }
+          - changeCharacter: { character: mang, stat: resonance, amount: 20 }
+          - changeCharacter: { character: mang, stat: trust, amount: 16 }
+          - addMemory: { character: mang, text: 树影封住了她的伤口。 }
+          - addTendency: guardian
+        resultText:
+          - 伤口在根须旁缓慢闭合。她终于意识到，头顶的古树并非偶然遮住了她。
+      - id: raise-roots
+        label: 升起根须庇护她
+        preview: 神力-4；赶走危险，恐惧与感应提高。
+        costHint: 神力-4
+        relatedModules: [tree, characters]
+        effects:
+          - changePower: -4
+          - openModule: { module: characters, access: partial }
+          - setPhase: mang-arrival
+          - setCharacterKnowledge: { character: mang, knowledge: mentioned }
+          - changeCharacter: { character: mang, stat: resonance, amount: 14 }
+          - changeCharacter: { character: mang, stat: fear, amount: 10 }
+          - addTendency: dread
+        resultText:
+          - 根须从泥中抬起，把灌木后的兽影逼退。她活了下来，也记住了树会动。
+      - id: stay-silent
+        label: 保持沉默
+        preview: 保留神力；她会自行理解这次幸存。
+        relatedModules: [characters]
+        effects:
+          - openModule: { module: characters, access: partial }
+          - setPhase: mang-arrival
+          - setCharacterKnowledge: { character: mang, knowledge: mentioned }
+          - changeCharacter: { character: mang, stat: resonance, amount: 6 }
+          - addTendency: silent
+        resultText:
+          - 她在树下熬过了夜。你没有回应，但她离开时回头看了很久。
+  - id: mang-returns
+    kind: fixed
+    title: 她回来确认神树意志
+    body:
+      - 几日后，那个受伤的女人回到树下。她带着一小把草药和警惕，不知道该祈求还是逃开。
+    phaseIds: [mang-arrival, private-offering]
+    priority: 90
+    once: true
+    trigger: { dateAtLeast: 34 }
+    options:
+      - id: tell-name
+        label: 以叶声回应她的名字
+        preview: 神力-2；她的姓名“芒”进入认知，信任提高。
+        relatedModules: [characters]
+        effects:
+          - changePower: -2
+          - setPhase: private-offering
+          - setCharacterKnowledge: { character: mang, knowledge: known }
+          - changeCharacter: { character: mang, stat: trust, amount: 8 }
+          - changeCharacter: { character: mang, stat: resonance, amount: 10 }
+        resultText:
+          - 她低声说自己叫芒。叶声没有语言，却在她心里留下了“被听见”的感觉。
+      - id: stern-return
+        label: 让枝影压低提醒敬畏
+        preview: 神力-1；姓名解锁，恐惧提高。
+        relatedModules: [characters, faith]
+        effects:
+          - changePower: -1
+          - setPhase: private-offering
+          - setCharacterKnowledge: { character: mang, knowledge: known }
+          - changeCharacter: { character: mang, stat: fear, amount: 10 }
+          - changeCollectiveFear: 2
+          - addTendency: dread
+        resultText:
+          - 芒跪了下去。她仍会回来，但不是因为安心，而是因为确信古树不可冒犯。
+      - id: let-her-speak
+        label: 让她自己说完整件事
+        preview: 保留神力；获得部落传闻。
+        relatedModules: [characters, tribe]
+        effects:
+          - setPhase: private-offering
+          - setCharacterKnowledge: { character: mang, knowledge: known }
+          - openModule: { module: tribe, access: hinted }
+          - addTendency: silent
+        resultText:
+          - 芒把自己的惊惧说给树听，也说起远处还有她的族人。他们缺粮，也有人受伤。
+  - id: mang-tests-sign
+    kind: fixed
+    title: 芒留下记号测试回应
+    body:
+      - 芒在根旁摆了三块石子，又在树皮上系上一根草绳。她退到远处，等着看古树是否真的会回应。
+    phaseIds: [private-offering]
+    priority: 80
+    once: true
+    trigger: { dateAtLeast: 40 }
+    options:
+      - id: move-stone
+        label: 移动最小的石子
+        preview: 神力-2；感应与信任提高。
+        relatedModules: [tree, characters]
+        effects:
+          - changePower: -2
+          - changeCharacter: { character: mang, stat: resonance, amount: 10 }
+          - changeCharacter: { character: mang, stat: trust, amount: 6 }
+        resultText:
+          - 石子轻轻滚到草绳下方。芒屏住呼吸，像终于收到一个只属于她的回答。
+      - id: point-water
+        label: 用草绳指向低地水声
+        preview: 神力-2；清溪探索+18，芒影响力提高。
+        relatedModules: [characters, map]
+        effects:
+          - changePower: -2
+          - changeRegionExploration: { region: clear-stream, amount: 18 }
+          - changeCharacter: { character: mang, stat: influence, amount: 4 }
+        resultText:
+          - 草绳指向低地。芒不完全明白，但她会把这个方向带回自己的脚步里。
+      - id: ignore-test
+        label: 不回应这场试探
+        preview: 保留神力；沉默倾向提高。
+        relatedModules: [tree]
+        effects:
+          - addTendency: silent
+          - changeCharacter: { character: mang, stat: fear, amount: 2 }
+        resultText:
+          - 石子没有动。芒把沉默也当成一种回答，只是更难解释。
+  - id: storm-under-tree
+    kind: fixed
+    title: 芒在暴雨中躲到树下
+    body:
+      - 夏季暴雨压弯树冠。芒冒雨躲到树下，她身上带着族人的疲惫气味。
+    phaseIds: [private-offering]
+    priority: 82
+    once: true
+    trigger: { dateAtLeast: 46 }
+    options:
+      - id: shelter-her
+        label: 为她挡开暴雨
+        preview: 神力-4；信任提高，部落传闻更清晰。
+        relatedModules: [tree, characters, tribe]
+        effects:
+          - changePower: -4
+          - changeCharacter: { character: mang, stat: trust, amount: 8 }
+          - openModule: { module: tribe, access: hinted }
+          - changeFlag: { flag: tribe-rumors, amount: 1 }
+          - addTendency: guardian
+        resultText:
+          - 雨水绕开树下。芒第一次主动说起溪原部：他们迁徙、缺粮，并且有人不相信她。
+      - id: thunder-warning
+        label: 借雷声显示威严
+        preview: 神力-3；恐惧提高，芒更可能传播敬畏。
+        relatedModules: [tree, characters, faith]
+        effects:
+          - changePower: -3
+          - changeCharacter: { character: mang, stat: fear, amount: 8 }
+          - changeCollectiveFear: 3
+          - addTendency: dread
+        resultText:
+          - 雷声在树冠上方炸开。芒把额头贴进泥里，记住了神树也拥有怒意。
+      - id: listen-only
+        label: 只听她谈起族人
+        preview: 保留神力；部落传闻+1。
+        relatedModules: [characters, tribe]
+        effects:
+          - openModule: { module: tribe, access: hinted }
+          - changeFlag: { flag: tribe-rumors, amount: 1 }
+          - addTendency: silent
+        resultText:
+          - 你没有替她挡雨。芒在雨里说了很久，像把无人相信的事交给树洞。
+  - id: first-offering
+    kind: fixed
+    title: 第一份供奉
+    body:
+      - 芒在根旁放下一只盛水的粗陶碗，又压上一束新折的叶。她没有请求，只是在等待。
+    phaseIds: [private-offering, distant-tribe]
+    priority: 95
+    once: true
+    trigger: { dateAtLeast: 50 }
+    options:
+      - id: accept-water
+        label: 接受清水与叶片
+        preview: 建立低而稳定的个人信仰；芒信任提高。
+        relatedModules: [faith, characters]
+        effects:
+          - openModule: { module: faith, access: partial }
+          - setWorshipVisibility: personal
+          - changeBelievers: 1
+          - addFaithSource: { id: mang-water-leaves, label: 芒的清水与枝叶, amount: 0.2, module: faith }
+          - changeCharacter: { character: mang, stat: trust, amount: 6 }
+          - addTendency: guardian
+        resultText:
+          - 清水渗入根旁。芒明白供奉被接纳，于是个人的敬意开始成为稳定的神力来源。
+      - id: demand-more
+        label: 显示应当献上更多
+        preview: 信仰收入更高；芒恐惧提高。
+        relatedModules: [faith, characters]
+        effects:
+          - openModule: { module: faith, access: partial }
+          - setWorshipVisibility: personal
+          - changeBelievers: 1
+          - addFaithSource: { id: mang-demanded-offering, label: 芒的畏惧供奉, amount: 0.35, module: faith }
+          - changeCharacter: { character: mang, stat: fear, amount: 8 }
+          - addTendency: dread
+        resultText:
+          - 陶碗旁的根须轻轻收紧。芒理解为古树索取更多，供奉也因此带上恐惧。
+      - id: push-away
+        label: 让根须推开陶碗
+        preview: 暂不建立供奉；芒困惑但仍保持感应。
+        relatedModules: [faith, characters]
+        effects:
+          - changeCharacter: { character: mang, stat: resonance, amount: 4 }
+          - addTendency: silent
+        resultText:
+          - 陶碗被推离树根。芒不知道自己做错了什么，只能把这次拒绝记在心里。
+  - id: distant-hunger
+    kind: fixed
+    title: 芒谈起族人的粮食问题
+    body:
+      - 芒说，溪原部今年采集不顺。她想知道神树是否能指一个不让族人挨饿的方向。
+    phaseIds: [distant-tribe]
+    priority: 88
+    once: true
+    trigger: { dateAtLeast: 55 }
+    options:
+      - id: hint-stream-food
+        label: 暗示低地水源
+        preview: 清溪探索+20；部落传闻继续增加。
+        relatedModules: [map, tribe, characters]
+        effects:
+          - setPhase: distant-tribe
+          - changeRegionExploration: { region: clear-stream, amount: 20 }
+          - setRegionKnowledge: { region: clear-stream, knowledge: sensed }
+          - changeFlag: { flag: tribe-rumors, amount: 1 }
+        resultText:
+          - 芒在梦中听见水声。她会把这当成寻找食物和水源的方向，而不是完整命令。
+      - id: feed-by-power
+        label: 赐下一次丰盛采集
+        preview: 神力-6；部落粮食+8，芒信任提高。
+        relatedModules: [tree, tribe, characters]
+        requirements:
+          resourceAtLeast: { resource: power, value: 6 }
+        effects:
+          - changePower: -6
+          - changeFood: 8
+          - changeCharacter: { character: mang, stat: trust, amount: 6 }
+          - addTendency: guardian
+        resultText:
+          - 芒返回后找到一处被雨水冲出的块根。她会说这是树给的，但族人未必都相信。
+      - id: keep-distance
+        label: 不替远处的人群决定
+        preview: 保留神力；沉默倾向提高。
+        relatedModules: [tree, tribe]
+        effects:
+          - addTendency: silent
+        resultText:
+          - 你没有回应饥饿。芒只能把沉默带回部落，那里会继续用人的办法解决人的困境。
+  - id: request-for-wounded
+    kind: fixed
+    title: 芒替未曾露面的伤者祈求
+    body:
+      - 芒带来一截染血的布。她说族里还有人伤得很重，却不敢靠近古树。
+    phaseIds: [distant-tribe]
+    priority: 86
+    once: true
+    trigger: { dateAtLeast: 58 }
+    options:
+      - id: distant-blessing
+        label: 给她带回微弱祝福
+        preview: 神力-6；伤病-1，芒影响力提高。
+        relatedModules: [tree, characters, tribe]
+        requirements:
+          resourceAtLeast: { resource: power, value: 6 }
+        effects:
+          - changePower: -6
+          - changeInjuries: -1
+          - changeCharacter: { character: mang, stat: influence, amount: 6 }
+          - addTendency: guardian
+        resultText:
+          - 叶上的露水被芒带走。它不是完整神迹，却足够让一个伤者撑过夜晚。
+      - id: require-approach
+        label: 要他们亲自来到树下
+        preview: 恐惧与期待提高；推动部落来临。
+        relatedModules: [characters, tribe, faith]
+        effects:
+          - changeCollectiveFaith: 3
+          - changeCollectiveFear: 3
+          - changeCharacter: { character: mang, stat: fear, amount: 3 }
+          - addTendency: dread
+        resultText:
+          - 芒理解为：神树不拒绝伤者，但人必须亲自来到树下，承担靠近神的代价。
+      - id: refuse-prayer
+        label: 拒绝替陌生人耗费力量
+        preview: 保留神力；芒信任下降、恐惧上升。
+        relatedModules: [characters]
+        effects:
+          - changeCharacter: { character: mang, stat: trust, amount: -4 }
+          - changeCharacter: { character: mang, stat: fear, amount: 4 }
+          - addTendency: silent
+        resultText:
+          - 布条被风吹回芒脚边。她脸色发白，却没有争辩。
+  - id: divided-story
+    kind: fixed
+    title: 芒发现族人并不相信同一个故事
+    body:
+      - 芒说，有人相信古树救过她，也有人认为她只是把幸存说成神迹。故事开始分裂。
+    phaseIds: [distant-tribe]
+    priority: 84
+    once: true
+    trigger: { dateAtLeast: 60 }
+    options:
+      - id: strengthen-mang
+        label: 强化芒作为中介
+        preview: 神力-4；芒影响力提高，解释权更集中。
+        relatedModules: [characters, faith]
+        effects:
+          - changePower: -4
+          - changeCharacter: { character: mang, stat: influence, amount: 8 }
+          - setInterpreter: mang
+        resultText:
+          - 芒再次梦见树下的伤口愈合。她更敢说，也更像神树的第一位解释者。
+      - id: invite-witnesses
+        label: 让更多人亲眼来到树下
+        preview: 推动部落公开接触；信仰与恐惧同时提高。
+        relatedModules: [tribe, faith]
+        effects:
+          - changeCollectiveFaith: 4
+          - changeCollectiveFear: 2
+          - setPhase: tribe-arrival
+        resultText:
+          - 树影向外扩散。芒明白，若故事无法说服族人，就让族人自己来见树。
+      - id: let-story-split
+        label: 允许故事继续分裂
+        preview: 保留神力；沉默倾向提高。
+        relatedModules: [tribe, faith]
+        effects:
+          - addTendency: silent
+          - changeCollectiveFaith: 1
+        resultText:
+          - 你没有纠正任何版本。不同的故事会把人带向树下，也会带来争执。
+  - id: people-under-tree
+    kind: fixed
+    title: 芒把溪原部带到树下
+    body:
+      - 秋季第一日，芒带着十几个人出现在林中。老人、伤者和一个沉默的首领站在最前面。
+    phaseIds: [tribe-arrival]
+    priority: 120
+    once: true
+    trigger: { dateAtLeast: 61 }
+    options:
+      - id: receive-tribe
+        label: 以安静树影接纳他们
+        preview: 部落进入部分认知；集体信仰提高。
+        relatedModules: [tribe, faith, characters]
+        effects:
+          - openModule: { module: tribe, access: partial }
+          - openModule: { module: characters, access: full }
+          - setCharacterKnowledge: { character: cen, knowledge: known }
+          - changeCollectiveFaith: 5
+          - setPhase: tribe-arrival
+        resultText:
+          - 溪原部在树下停住。你仍不能直接命令他们，但他们终于进入了你的视野。
+      - id: awe-tribe
+        label: 让树冠无风而动
+        preview: 部落进入部分认知；集体恐惧提高。
+        relatedModules: [tribe, faith]
+        effects:
+          - openModule: { module: tribe, access: partial }
+          - openModule: { module: characters, access: full }
+          - setCharacterKnowledge: { character: cen, knowledge: known }
+          - changeCollectiveFear: 7
+          - addTendency: dread
+          - setPhase: tribe-arrival
+        resultText:
+          - 人群跪倒得并不整齐。有人敬畏，有人害怕，岑却一直抬头看着树冠。
+      - id: observe-tribe
+        label: 先观察他们如何相互解释
+        preview: 部落进入部分认知；获得人物与稳定线索。
+        relatedModules: [tribe, characters]
+        effects:
+          - openModule: { module: tribe, access: partial }
+          - openModule: { module: characters, access: full }
+          - setCharacterKnowledge: { character: cen, knowledge: known }
+          - addTendency: silent
+          - setPhase: tribe-arrival
+        resultText:
+          - 芒试图解释，岑不断追问。你看到的不只是信仰，还有一个群体怎样决定是否相信。
+  - id: public-proof
+    kind: fixed
+    title: 岑要求可以验证的证明
+    body:
+      - 岑说，如果古树要影响溪原部，就必须给出能让众人看见的证明。
+    phaseIds: [tribe-arrival]
+    priority: 115
+    once: true
+    trigger: { dateAtLeast: 64 }
+    options:
+      - id: heal-public
+        label: 当众缓解一个伤者
+        preview: 神力-10；伤病-1，部落完整状态开放。
+        costHint: 神力-10
+        relatedModules: [tree, tribe, faith]
+        requirements:
+          resourceAtLeast: { resource: power, value: 10 }
+        effects:
+          - changePower: -10
+          - changeInjuries: -1
+          - openModule: { module: tribe, access: full }
+          - openModule: { module: faith, access: full }
+          - changeCollectiveFaith: 8
+          - setWorshipVisibility: restricted-public
+          - setPhase: tribe-management
+          - addTendency: guardian
+        resultText:
+          - 伤者在众目睽睽下缓过气来。岑无法否认，溪原部也不能再把神树当成芒的私事。
+      - id: mark-stream
+        label: 指出清溪方向的水源
+        preview: 神力-4；清溪已知，部落完整状态开放。
+        relatedModules: [map, tribe]
+        effects:
+          - changePower: -4
+          - setRegionKnowledge: { region: clear-stream, knowledge: known }
+          - setRegionConnection: { region: clear-stream, connection: weak }
+          - openModule: { module: tribe, access: full }
+          - openModule: { module: faith, access: full }
+          - setWorshipVisibility: restricted-public
+          - setPhase: tribe-management
+        resultText:
+          - 岑派人沿你指出的方向走去。水源真实存在，证明也因此落到了部落的脚下。
+      - id: frighten-public
+        label: 以神威压下质疑
+        preview: 神力-6；恐惧提高，部落完整状态开放但稳定下降。
+        relatedModules: [tree, tribe, faith]
+        effects:
+          - changePower: -6
+          - changeCollectiveFear: 10
+          - changeStability: -3
+          - openModule: { module: tribe, access: full }
+          - openModule: { module: faith, access: full }
+          - setWorshipVisibility: restricted-public
+          - setPhase: tribe-management
+          - addTendency: dread
+        resultText:
+          - 树影像巨手压过人群。质疑声消失了，但这份安静更像被压住，而非被说服。
+  - id: first-oracle
+    kind: fixed
+    title: 部落第一次请求长期方向
+    body:
+      - 溪原部承认神树能回应。但他们要知道：接下来的日子，神树希望他们先做什么？
+    phaseIds: [tribe-management]
+    priority: 110
+    once: true
+    trigger: { dateAtLeast: 66 }
+    options:
+      - id: food
+        label: 优先储粮
+        preview: 建立长期神谕：优先储粮。
+        relatedModules: [tribe]
+        effects:
+          - setOracle: food
+        resultText:
+          - 岑接受了这道方向：先让人活过接下来的日子，再谈更多祭祀。
+      - id: heal
+        label: 先照料伤者
+        preview: 建立长期神谕：先照料伤者。
+        relatedModules: [tribe, characters]
+        effects:
+          - setOracle: heal
+        resultText:
+          - 芒明显松了一口气。伤者会被优先照看，但食物压力不会因此消失。
+      - id: explore
+        label: 探索周边
+        preview: 建立长期神谕：探索周边。
+        relatedModules: [tribe, map]
+        effects:
+          - setOracle: explore
+        resultText:
+          - 部落把目光投向清溪、南坡和北方林缘。神谕给了方向，也给了风险。
+      - id: autonomy
+        label: 让部落自行决定
+        preview: 建立长期神谕：自主决定。
+        relatedModules: [tribe]
+        effects:
+          - setOracle: autonomy
+          - addTendency: silent
+        resultText:
+          - 神树没有给出明确方向。岑和芒必须把现实压力放到第一位。
+  - id: who-speaks
+    kind: fixed
+    title: 芒与岑争论谁解释神意
+    body:
+      - 芒认为自己更懂树下的沉默，岑认为部落不能把命运交给一个人的梦。
+    phaseIds: [tribe-management]
+    priority: 82
+    once: true
+    trigger: { dateAtLeast: 72 }
+    options:
+      - id: support-mang
+        label: 让芒继续解释神意
+        preview: 芒影响力提高；稳定略降。
+        relatedModules: [characters, faith, tribe]
+        effects:
+          - setInterpreter: mang
+          - changeCharacter: { character: mang, stat: influence, amount: 8 }
+          - changeStability: -2
+        resultText:
+          - 芒获得了更多接近树根的资格。岑没有反对到底，但部落记住了这份偏向。
+      - id: support-cen
+        label: 让岑公开转述神谕
+        preview: 岑信任提高；解释更稳定。
+        relatedModules: [characters, tribe]
+        effects:
+          - setInterpreter: cen
+          - changeCharacter: { character: cen, stat: trust, amount: 8 }
+          - changeStability: 3
+        resultText:
+          - 岑把神谕变成部落能执行的规矩。芒沉默下来，但没有离开树下。
+      - id: leave-dispute
+        label: 不裁定解释权
+        preview: 保持沉默；信仰与恐惧各小幅提高。
+        relatedModules: [faith]
+        effects:
+          - changeCollectiveFaith: 2
+          - changeCollectiveFear: 2
+          - addTendency: silent
+        resultText:
+          - 你没有选择任何人。争论暂时停下，但每个人都把沉默解释成对自己有利的样子。
+  - id: offering-form
+    kind: fixed
+    title: 部落自行讨论祭品形式
+    body:
+      - 人们开始讨论该献清水、粮食还是兽血。祭祀不是神树发起的，而是部落主动寻找可交换的秩序。
+    phaseIds: [tribe-management]
+    priority: 78
+    once: true
+    trigger: { dateAtLeast: 76 }
+    options:
+      - id: simple-rite
+        label: 认可清水与枝叶
+        preview: 信仰收入+0.25/日；稳定+2。
+        relatedModules: [faith, tribe]
+        effects:
+          - addFaithSource: { id: simple-public-rite, label: 简祭供奉, amount: 0.25, module: faith }
+          - changeStability: 2
+          - changeCollectiveFaith: 5
+          - addTendency: guardian
+        resultText:
+          - 清水和枝叶成为限制公开的祭品。它不富足，却让祭祀不至于压垮粮仓。
+      - id: grain-offering
+        label: 接受粮食供奉
+        preview: 信仰收入+0.45/日；粮食消耗+0.4/日。
+        relatedModules: [faith, tribe]
+        effects:
+          - addFaithSource: { id: grain-rite, label: 粮食供奉, amount: 0.45, module: faith }
+          - changeOfferingCost: 0.4
+          - changeCollectiveFaith: 6
+        resultText:
+          - 粮食被放到根旁。神树获得更稳定的供养，部落却要承担每天都能感觉到的代价。
+      - id: blood-rite
+        label: 允许兽血与禁忌
+        preview: 信仰收入+0.5/日；恐惧提高，稳定下降。
+        relatedModules: [faith, tribe]
+        effects:
+          - addFaithSource: { id: blood-rite, label: 兽血禁忌, amount: 0.5, module: faith }
+          - changeCollectiveFear: 8
+          - changeStability: -4
+          - addTendency: dread
+        resultText:
+          - 兽血浸入根旁泥土。祭祀变得更有力量，也更让人不敢轻易靠近。
+  - id: survival-pressure
+    kind: fixed
+    title: 粮食与伤病形成现实压力
+    body:
+      - 几日经营后，溪原部的问题没有消失：粮食、伤病、祭祀代价和警戒都在争夺同一批人。
+    phaseIds: [tribe-management]
+    priority: 86
+    once: true
+    trigger: { dateAtLeast: 80 }
+    options:
+      - id: protect-gathering
+        label: 庇护一次采集
+        preview: 神力-8；粮食+10，稳定+2。
+        relatedModules: [tree, tribe]
+        requirements:
+          resourceAtLeast: { resource: power, value: 8 }
+        effects:
+          - changePower: -8
+          - changeFood: 10
+          - changeStability: 2
+          - addTendency: guardian
+        resultText:
+          - 根须与征兆避开了危险。采集者带回更多食物，部落也更愿相信神谕有现实用处。
+      - id: force-labor
+        label: 以威压催促劳作
+        preview: 粮食+8；恐惧+6，稳定-3。
+        relatedModules: [tribe, faith]
+        effects:
+          - changeFood: 8
+          - changeCollectiveFear: 6
+          - changeStability: -3
+          - addTendency: dread
+        resultText:
+          - 没有人敢偷懒。粮食短期增加，但部落把这一天记作被树影压着走过的一天。
+      - id: accept-limits
+        label: 允许部落缩小神谕规模
+        preview: 稳定+4；当前计划更保守。
+        relatedModules: [tribe]
+        effects:
+          - changeStability: 4
+          - setTribeAction: 缩小规模处理现实压力
+          - addTendency: guardian
+        resultText:
+          - 岑把神谕改成部落能够执行的规模。神树没有得到彻底服从，却得到一个能继续活下去的部落。
+  - id: human-footprints
+    kind: fixed
+    title: 林缘出现人类足迹
+    body:
+      - 北方林缘出现不属于溪原部的脚印。它们避开兽道，像是在寻找接近古树的路线。
+    phaseIds: [war-clouds, tribe-management]
+    priority: 105
+    once: true
+    trigger: { dateAtLeast: 85 }
+    options:
+      - id: reveal-threat
+        label: 让巡查者发现足迹
+        preview: 威胁线索+1；警戒倾向提高。
+        relatedModules: [map, tribe]
+        effects:
+          - setPhase: war-clouds
+          - setRegionKnowledge: { region: northern-edge, knowledge: trace }
+          - changeFlag: { flag: threat-clues, amount: 1 }
+          - setOracle: patrol
+        resultText:
+          - 巡查者在林缘停下。足迹证明敌意并非传闻，部落的注意力开始转向北方。
+      - id: hide-threat
+        label: 暂时隐瞒足迹
+        preview: 威胁线索+1；稳定暂时不受冲击。
+        relatedModules: [tree, tribe]
+        effects:
+          - setPhase: war-clouds
+          - changeFlag: { flag: threat-clues, amount: 1 }
+          - addTendency: silent
+        resultText:
+          - 你没有把足迹推到人前。部落还在经营日常，但北方的脚印不会因此消失。
+      - id: mark-boundary
+        label: 在林缘留下神威边界
+        preview: 神力-8；威胁线索+2，恐惧提高。
+        relatedModules: [tree, map, faith]
+        effects:
+          - changePower: -8
+          - setPhase: war-clouds
+          - setRegionKnowledge: { region: northern-edge, knowledge: trace }
+          - changeFlag: { flag: threat-clues, amount: 2 }
+          - changeCollectiveFear: 5
+          - addTendency: dread
+        resultText:
+          - 北方林缘的枝条无风折断。溪原部和外来者都会知道，有什么在守着这片树影。
+  - id: fires-beyond-woods
+    kind: fixed
+    title: 林外火光确认敌意
+    body:
+      - 夜色降下后，北方林外亮起数处不属于溪原部的火。战争尚未开始，但已经抵近。
+    phaseIds: [war-clouds]
+    priority: 120
+    once: true
+    trigger: { dateAtLeast: 90 }
+    options:
+      - id: defend
+        label: 储粮守卫
+        preview: 战前方向=储粮守卫；粮食-4，稳定+4。
+        relatedModules: [tribe]
+        effects:
+          - setWarDirection: defend
+          - changeFood: -4
+          - changeStability: 4
+          - chapterSummary: true
+        resultText:
+          - 岑接受了这道方向：先守粮，再守树。部落把恐惧压成准备。
+      - id: divine-show
+        label: 展示神威
+        preview: 神力-12；战前方向=展示神威，信仰与恐惧提高。
+        relatedModules: [tree, faith]
+        requirements:
+          resourceAtLeast: { resource: power, value: 12 }
+        effects:
+          - changePower: -12
+          - setWarDirection: divine-show
+          - changeCollectiveFaith: 6
+          - changeCollectiveFear: 8
+          - setFlag: { flag: prepared-miracle, value: true }
+          - addTendency: dread
+          - chapterSummary: true
+        resultText:
+          - 北方看见了树影中的异象。溪原部也看见了，他们把临战理解为神威的试炼。
+      - id: withdraw
+        label: 准备迁避
+        preview: 战前方向=准备迁避；稳定-3，芒信任+3。
+        relatedModules: [tribe, characters]
+        effects:
+          - setWarDirection: withdraw
+          - changeStability: -3
+          - changeCharacter: { character: mang, stat: trust, amount: 3 }
+          - addTendency: guardian
+          - chapterSummary: true
+        resultText:
+          - 芒认为这是保命，岑认为这是退让。部落开始准备能带走的东西。
+      - id: silent
+        label: 保持沉默
+        preview: 战前方向由部落自行决定；沉默倾向+2。
+        relatedModules: [tree, tribe]
+        effects:
+          - setWarDirection: autonomous
+          - addTendency: silent
+          - addTendency: silent
+          - chapterSummary: true
+        resultText:
+          - 你没有降下方向。岑、芒和饥饿本身会决定部落如何面对火光。

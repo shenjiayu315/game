@@ -1,0 +1,105 @@
+phases:
+  - id: tree-awakening
+    title: 神树初醒
+    summary: 黑暗中最先恢复的是根须、雨水和缓慢聚起的神力。
+    order: 1
+    moduleAccess:
+      tree: full
+      map: locked
+      characters: locked
+      tribe: locked
+      faith: hinted
+    milestone:
+      - 你在古树林地醒来，还不知道人声意味着什么。
+      - 先恢复一种本能，再让日期开始流动。
+  - id: roots-in-woods
+    title: 根入林地
+    summary: 根须开始分辨潮气、兽道和树下以外的方向。
+    order: 2
+    moduleAccess:
+      tree: full
+      map: partial
+      characters: locked
+      tribe: locked
+      faith: hinted
+    milestone:
+      - 古树林地在感知中成形。
+      - 清溪与南坡仍只是方向，不是完整地区。
+  - id: mang-arrival
+    title: 芒的到来
+    summary: 血腥气把一个受伤的陌生人带到树下。
+    order: 3
+    moduleAccess:
+      tree: full
+      map: partial
+      characters: partial
+      tribe: locked
+      faith: hinted
+    milestone:
+      - 人类第一次进入你的树影。
+      - 她还没有名字，只有伤口、惊惧和观察。
+  - id: private-offering
+    title: 私人供奉
+    summary: 芒反复回到树下，试探神树是否真的有意志。
+    order: 4
+    moduleAccess:
+      tree: full
+      map: partial
+      characters: partial
+      tribe: hinted
+      faith: partial
+    milestone:
+      - 私人的记忆开始变成供奉。
+      - 芒所属的人群仍只是传闻。
+  - id: distant-tribe
+    title: 遥远部落
+    summary: 部落还没有来到树下，只通过芒的言谈、祈求和分裂故事进入神树认知。
+    order: 4
+    moduleAccess:
+      tree: full
+      map: partial
+      characters: partial
+      tribe: hinted
+      faith: partial
+    milestone:
+      - 芒带来了族人的饥饿、伤病和怀疑。
+      - 部落仍不显示完整面板，只作为远处的人群被理解。
+  - id: tribe-arrival
+    title: 部落来临
+    summary: 芒把族人带来，岑要求一个能被众人看见的证明。
+    order: 5
+    moduleAccess:
+      tree: full
+      map: partial
+      characters: partial
+      tribe: partial
+      faith: partial
+    milestone:
+      - 神树不再只面对一个人。
+      - 部落需要食物、秩序和可验证的回应。
+  - id: tribe-management
+    title: 部落经营
+    summary: 溪原部开始围绕神谕、生存和祭祀形成自己的行动。
+    order: 6
+    moduleAccess:
+      tree: full
+      map: full
+      characters: full
+      tribe: full
+      faith: full
+    milestone:
+      - 溪原部的真实状态向你展开。
+      - 他们会听从、调整或拒绝神意，并给出原因。
+  - id: war-clouds
+    title: 战云将至
+    summary: 北方林缘出现不是野兽留下的脚印。
+    order: 7
+    moduleAccess:
+      tree: full
+      map: full
+      characters: full
+      tribe: full
+      faith: full
+    milestone:
+      - 战争系统尚未开启，但敌意已经抵近。
+      - 这一次你只需要决定临战前的方向。

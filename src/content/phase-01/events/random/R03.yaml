@@ -1,0 +1,34 @@
+id: R03
+kind: random
+title: 暴雨下的树影
+body:
+  - 暴雨忽然压低树冠，芒在远处迟疑，似乎想躲进树下。
+phaseIds: [private-offering]
+priority: 10
+once: true
+weight: 2
+trigger:
+  phase: private-offering
+options:
+  - id: shelter
+    label: 庇护她
+    preview: 神力-4，信任+7。
+    effects:
+      - changePower: -4
+      - changeCharacter: { character: mang, stat: trust, amount: 7 }
+      - addTendency: guardian
+    resultText: [树影挡住最急的雨。芒离开时回头看了很久。]
+  - id: reveal
+    label: 在雨中显形
+    preview: 恐惧+6。
+    effects:
+      - changeCharacter: { character: mang, stat: fear, amount: 6 }
+      - addTendency: dread
+    resultText: [雨水绕开树根，像某种力量在显露边界。]
+  - id: silent
+    label: 沉默注视
+    preview: 获得部落线索。
+    effects:
+      - openModule: { module: tribe, access: hinted }
+      - addTendency: silent
+    resultText: [她在雨声里低声提到族人的粮食，随后匆匆离开。]

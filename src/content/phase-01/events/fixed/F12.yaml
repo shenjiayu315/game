@@ -1,0 +1,65 @@
+id: F12
+kind: fixed
+title: 林外的火光
+body:
+  - 夜色降下后，北方林外亮起数处不属于溪原部的火。
+  - 受伤的巡查者说，那些人正在寻找渡水和接近古树的道路。
+phaseIds: [war-clouds]
+priority: 100
+once: true
+trigger:
+  all:
+    - dateAtLeast: 54
+    - any:
+        - threatAtLeast: 2
+        - dateAtLeast: 60
+deadlineDay: 60
+options:
+  - id: defend
+    label: 储粮守卫
+    preview: 战前方向=储粮守卫；粮食-4，稳定+4，岑信任+5。
+    effects:
+      - setWarDirection: defend
+      - changeFood: -4
+      - changeStability: 4
+      - changeCharacter: { character: cen, stat: trust, amount: 5 }
+      - chapterSummary: true
+    resultText:
+      - 岑接受了这道方向：先守粮，再守树。部落把恐惧压成准备。
+  - id: divine-show
+    label: 展示神威
+    preview: 神力-12；战前方向=展示神威，集体信仰与恐惧提高。
+    requirements:
+      resourceAtLeast: { resource: power, value: 12 }
+    effects:
+      - changePower: -12
+      - setWarDirection: divine-show
+      - changeCollectiveFaith: 6
+      - changeCollectiveFear: 8
+      - setFlag: { flag: prepared-miracle, value: true }
+      - addTendency: dread
+      - chapterSummary: true
+    resultText:
+      - 北方看见了树影中的异象。溪原部也看见了，他们把临战理解为神威的试炼。
+  - id: withdraw
+    label: 准备迁避
+    preview: 战前方向=准备迁避；稳定-3，芒信任+3、岑信任-3。
+    effects:
+      - setWarDirection: withdraw
+      - changeStability: -3
+      - changeCharacter: { character: mang, stat: trust, amount: 3 }
+      - changeCharacter: { character: cen, stat: trust, amount: -3 }
+      - addTendency: guardian
+      - chapterSummary: true
+    resultText:
+      - 芒认为这是保命，岑认为这是退让。部落开始准备能带走的东西。
+  - id: silent
+    label: 保持沉默
+    preview: 战前方向由部落当前状态自行决定，沉默倾向+2。
+    effects:
+      - setWarDirection: autonomous
+      - addTendency: silent
+      - addTendency: silent
+      - chapterSummary: true
+    resultText:
+      - 你没有降下方向。岑、芒和饥饿本身会决定部落如何面对火光。

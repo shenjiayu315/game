@@ -1,0 +1,305 @@
+actions:
+  - id: A01
+    source: tree
+    title: 沉根聚灵
+    description: 放弃外探，专注让灵气回流。
+    durationDays: 3
+    target: none
+    dailyEffects:
+      - changePower: 0.5
+    completionEffects:
+      - addHistory: { title: 沉根聚灵, text: 神树把初醒的力量重新收束。 }
+      - changeFlag: { flag: action.A01, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 持续3日，每日额外获得0.5神力。
+      - 不改变外界，但能为后续神迹积累余量。
+  - id: A02
+    source: tree
+    title: 扩展感知
+    description: 让根须与树冠一起分辨更远处的声音。
+    durationDays: 3
+    target: none
+    requirements:
+      all:
+        - phase: tree-awakening
+        - notFlag: action.A02
+    startEffects:
+      - changePower: -2
+    completionEffects:
+      - changePerception: 1
+      - openModule: { module: map, access: partial }
+      - setPhase: roots-in-woods
+      - changeFlag: { flag: action.A02, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗2神力，持续3日。
+      - 完成后开放地图入口，感知等级提高。
+  - id: A03
+    source: map
+    title: 触碰近处土壤
+    description: 向一个方向缓慢探根，积累最初的地区进度。
+    durationDays: 2
+    target: region
+    targetFilter: [clear-stream, south-slope]
+    startEffects:
+      - changePower: -1
+    dailyEffects:
+      - changeRegionExploration: { region: "$target", amount: 10 }
+    completionEffects:
+      - changeFlag: { flag: action.A03, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗1神力，目标方向每日探索+10。
+      - 达到20后会形成可见线索。
+  - id: A04
+    source: map
+    title: 聆听水意
+    description: 追随潮湿气息，辨认低地水源。
+    durationDays: 3
+    target: none
+    requirements:
+      regionExplorationAtLeast: { region: clear-stream, value: 20 }
+    startEffects:
+      - changePower: -2
+    dailyEffects:
+      - changeRegionExploration: { region: clear-stream, amount: 15 }
+    completionEffects:
+      - changeFlag: { flag: action.A04, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗2神力，持续3日。
+      - 清溪方向每日探索+15。
+  - id: A05
+    source: map
+    title: 追索兽道
+    description: 沿断草和泥点辨认南坡去向。
+    durationDays: 3
+    target: none
+    requirements:
+      regionExplorationAtLeast: { region: south-slope, value: 20 }
+    startEffects:
+      - changePower: -2
+    dailyEffects:
+      - changeRegionExploration: { region: south-slope, amount: 15 }
+    completionEffects:
+      - changeFlag: { flag: action.A05, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗2神力，南坡方向每日探索+15。
+      - 可能更早发现追赶人类的野兽。
+  - id: A06
+    source: map
+    title: 向目标延根
+    description: 对一个已有线索的地区持续延伸根系。
+    durationDays: 5
+    target: region
+    targetFilter: [clear-stream, south-slope]
+    startEffects:
+      - changePower: -4
+    dailyEffects:
+      - changeRegionExploration: { region: "$target", amount: 12 }
+    completionEffects:
+      - changeFlag: { flag: action.A06, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗4神力，持续5日。
+      - 目标地区每日探索+12。
+  - id: A07
+    source: map
+    title: 稳固地区连接
+    description: 把微弱根系推进为稳定连接。
+    durationDays: 4
+    target: region
+    targetFilter: [clear-stream, south-slope]
+    startEffects:
+      - changePower: -6
+    completionEffects:
+      - setRegionConnection: { region: "$target", connection: stable }
+      - changeFlag: { flag: action.A07, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗6神力，持续4日。
+      - 完成后目标地区成为稳定连接并提供灵气。
+  - id: A08
+    source: tree
+    title: 静默观察
+    description: 不作回应，只让世界在树影下暴露更多线索。
+    durationDays: 2
+    target: none
+    dailyEffects:
+      - changePower: 0.2
+    completionEffects:
+      - addTendency: silent
+      - changeFlag: { flag: hidden-clue, amount: 1 }
+      - changeFlag: { flag: action.A08, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 不消耗神力，持续2日。
+      - 可能揭示隐藏线索，并增加沉默倾向。
+  - id: A09
+    source: characters
+    title: 回应芒
+    description: 通过叶声或梦境回应芒的试探。
+    durationDays: 2
+    target: tone
+    requirements:
+      relationAtLeast: { character: mang, stat: resonance, value: 1 }
+    variants:
+      - id: gentle
+        label: 温和回应
+        description: 让她相信神树愿意庇护。
+        effects:
+          - changeCharacter: { character: mang, stat: trust, amount: 6 }
+          - addTendency: guardian
+      - id: stern
+        label: 威严回应
+        description: 让她明白神树不可冒犯。
+        effects:
+          - changeCharacter: { character: mang, stat: fear, amount: 6 }
+          - addTendency: dread
+    startEffects:
+      - changePower: -3
+    completionEffects:
+      - changeCharacter: { character: mang, stat: resonance, amount: 8 }
+      - changeFlag: { flag: action.A09, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗3神力，持续2日。
+      - 两种语气都会提高感应，但影响信任或恐惧。
+  - id: A10
+    source: tribe
+    title: 庇护采集
+    description: 以根须和征兆降低采集风险。
+    durationDays: 5
+    requirements:
+      moduleAccessAtLeast: { module: tribe, level: full }
+    startEffects:
+      - changePower: -8
+    dailyEffects:
+      - changeFood: 0.5
+    completionEffects:
+      - changeFood: 5
+      - changeCollectiveFaith: 4
+      - addTendency: guardian
+      - changeFlag: { flag: action.A10, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗8神力，期间粮食生产提高。
+      - 完成时粮食+5，集体信仰+4。
+  - id: A11
+    source: tribe
+    title: 抚平伤痛
+    description: 把神力转向伤者和看护。
+    durationDays: 4
+    requirements:
+      moduleAccessAtLeast: { module: tribe, level: full }
+    startEffects:
+      - changePower: -10
+    completionEffects:
+      - changeInjuries: -1
+      - changeCollectiveFaith: 5
+      - changeCharacter: { character: mang, stat: trust, amount: 3 }
+      - addTendency: guardian
+      - changeFlag: { flag: action.A11, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗10神力，持续4日。
+      - 完成后伤病-1，集体信仰提高。
+  - id: A12
+    source: tribe
+    title: 催促劳作
+    description: 以威压让部落短期提高产出。
+    durationDays: 4
+    requirements:
+      moduleAccessAtLeast: { module: tribe, level: full }
+    startEffects:
+      - changePower: -4
+    dailyEffects:
+      - changeFood: 1
+    completionEffects:
+      - changeFood: 4
+      - changeStability: -4
+      - changeCollectiveFear: 6
+      - addTendency: dread
+      - changeFlag: { flag: action.A12, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗4神力，短期提高粮食。
+      - 完成后稳定下降，集体恐惧提高。
+  - id: A13
+    source: tribe
+    title: 引导探索
+    description: 把部落目光引向一个已知方向。
+    durationDays: 5
+    target: region
+    targetFilter: [clear-stream, south-slope, northern-edge]
+    requirements:
+      moduleAccessAtLeast: { module: tribe, level: full }
+    startEffects:
+      - changePower: -6
+    dailyEffects:
+      - changeRegionExploration: { region: "$target", amount: 10 }
+    completionEffects:
+      - changeFlag: { flag: guided-exploration, amount: 1 }
+      - changeFlag: { flag: action.A13, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗6神力，目标地区每日探索+10。
+      - 会提高部落选择相关行动的倾向。
+  - id: A14
+    source: faith
+    title: 鼓励简祭
+    description: 认可较轻的公共祭祀。
+    durationDays: 4
+    requirements:
+      moduleAccessAtLeast: { module: faith, level: full }
+    startEffects:
+      - changePower: -4
+    completionEffects:
+      - changeWorshipIntensity: 1
+      - changeFood: -2
+      - changeBelievers: 2
+      - addFaithSource: { id: simple-rite, label: 简祭供奉, amount: 0.1, module: faith }
+      - changeStability: 1
+      - addTendency: guardian
+      - changeFlag: { flag: action.A14, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗4神力，持续4日。
+      - 信徒+2，信仰收入略升，粮食压力较小。
+  - id: A15
+    source: faith
+    title: 索取供奉
+    description: 不花神力，要求部落承担更多祭品。
+    durationDays: 3
+    requirements:
+      moduleAccessAtLeast: { module: faith, level: full }
+    completionEffects:
+      - changeWorshipIntensity: 1
+      - changeFood: -5
+      - addFaithSource: { id: demanded-offering, label: 索取供奉, amount: 0.25, module: faith }
+      - changeCollectiveFear: 7
+      - changeStability: -3
+      - addTendency: dread
+      - changeFlag: { flag: action.A15, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 不消耗神力，持续3日。
+      - 信仰收入提高更明显，但粮食、稳定和恐惧承压。
+  - id: A16
+    source: tree
+    title: 凝聚战前征兆
+    description: 在北方压力确认后准备一次未释放的神迹。
+    durationDays: 5
+    requirements:
+      threatAtLeast: 2
+    startEffects:
+      - changePower: -8
+    completionEffects:
+      - setFlag: { flag: prepared-miracle, value: true }
+      - changeFlag: { flag: action.A16, amount: 1 }
+    cancelPolicy: keep-progress
+    preview:
+      - 消耗8神力，持续5日。
+      - 获得预备神迹标记，影响章节总结。

@@ -1,0 +1,30 @@
+id: R09
+kind: random
+title: 猎犬朝北方低吼
+body:
+  - 一只猎犬在夜里朝北方低吼，怎么也不肯回窝。
+phaseIds: [war-clouds]
+priority: 10
+once: true
+weight: 2
+trigger:
+  phase: war-clouds
+options:
+  - id: track
+    label: 追索
+    preview: 威胁线索+1。
+    effects:
+      - changeFlag: { flag: threat-clues, amount: 1 }
+    resultText: [猎犬的方向与北方脚印一致。威胁更近了。]
+  - id: calm
+    label: 安抚
+    preview: 稳定+1。
+    effects:
+      - changeStability: 1
+    resultText: [猎犬慢慢安静下来，人群的夜晚也少了一点惊慌。]
+  - id: ignore
+    label: 忽略
+    preview: 无即时效果。
+    effects:
+      - addTendency: silent
+    resultText: [低吼持续到后半夜，随后消失在北风里。]

@@ -1,0 +1,73 @@
+id: F10
+kind: fixed
+title: 祭祀应当献上什么
+body:
+  - 第一次公开回应之后，族人开始争论应当把什么留在根旁。
+  - 每一种祭品都在说明，他们认为你是什么。
+phaseIds: [tribe-management]
+priority: 85
+once: true
+trigger:
+  any:
+    - tribePlansAtLeast: 1
+    - dateAtLeast: 50
+deadlineDay: 52
+options:
+  - id: water-leaves
+    label: 清水与枝叶
+    preview: 无粮食成本；信仰收入+0.35/日，稳定+2。
+    effects:
+      - setWorshipVisibility: restricted-public
+      - changeBelievers: 6
+      - changeWorshipIntensity: 1
+      - setInterpreter: mang
+      - setRitual: 清水与枝叶
+      - addFaithSource: { id: public-water-leaves, label: 公开清水与枝叶, amount: 0.35, module: faith }
+      - changeCollectiveFaith: 6
+      - changeStability: 2
+      - addTendency: guardian
+    resultText:
+      - 祭祀保持轻而稳定。树下多了水声，也少了一些争吵。
+  - id: grain
+    label: 少量粮食
+    preview: 粮食-3；信仰收入+0.55/日，集体信仰+8。
+    effects:
+      - changeFood: -3
+      - setWorshipVisibility: restricted-public
+      - changeBelievers: 6
+      - changeWorshipIntensity: 1
+      - setInterpreter: mang
+      - setRitual: 少量粮食
+      - addFaithSource: { id: public-grain, label: 公开粮食供奉, amount: 0.55, module: faith }
+      - changeCollectiveFaith: 8
+    resultText:
+      - 粮食被放在根旁。信仰更重，也更清楚地压在生存资源上。
+  - id: beast-blood
+    label: 兽血
+    preview: 无粮食成本；信仰收入+0.65/日，集体恐惧+8。
+    effects:
+      - setWorshipVisibility: restricted-public
+      - changeBelievers: 6
+      - changeWorshipIntensity: 1
+      - setInterpreter: mang
+      - setRitual: 兽血
+      - addFaithSource: { id: public-blood, label: 公开兽血供奉, amount: 0.65, module: faith }
+      - changeCollectiveFaith: 4
+      - changeCollectiveFear: 8
+      - addTendency: dread
+    resultText:
+      - 兽血染进泥土。部落开始把你理解成需要敬畏的神。
+  - id: no-fixed-gift
+    label: 不设固定祭品
+    preview: 收入较低；稳定+1，后续负担小。
+    effects:
+      - setWorshipVisibility: restricted-public
+      - changeBelievers: 6
+      - changeWorshipIntensity: 1
+      - setInterpreter: mang
+      - setRitual: 不设固定祭品
+      - addFaithSource: { id: public-unfixed, label: 无固定祭品, amount: 0.2, module: faith }
+      - changeStability: 1
+      - addTendency: silent
+    resultText:
+      - 树下没有固定祭品，只有人们在需要时带来的东西。信仰较慢，却不逼迫他们。

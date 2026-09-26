@@ -1,0 +1,41 @@
+id: F02
+kind: fixed
+title: 根须间的血腥气
+body:
+  - 细根触到一串急促的震动。
+  - 泥水里混着血、断草和陌生的脚步；有什么正在向古树靠近。
+phaseIds: [roots-in-woods]
+priority: 100
+once: true
+trigger:
+  any:
+    - regionExplorationAtLeast: { region: clear-stream, value: 40 }
+    - regionExplorationAtLeast: { region: south-slope, value: 40 }
+    - dateAtLeast: 12
+deadlineDay: 12
+options:
+  - id: follow-human
+    label: 追索轻微的人类脚步
+    preview: 更早显示伤者信息，南坡探索+10。
+    effects:
+      - changeRegionExploration: { region: south-slope, amount: 10 }
+      - setFlag: { flag: human-trace-found, value: true }
+    resultText:
+      - 你分辨出那不是兽群的拖拽，而是一个人类踉跄奔跑的节奏。
+  - id: sense-beast
+    label: 感知追赶她的野兽
+    preview: 后续威慑野兽的神迹成本降低。
+    effects:
+      - setFlag: { flag: beast-sensed, value: true }
+      - changeFlag: { flag: threat-clues, amount: 1 }
+    resultText:
+      - 灌木后的喘息粗重而饥饿。若它靠近树下，你会更快知道该折断哪里。
+  - id: wait-closer
+    label: 收回根须，等待来者靠近
+    preview: 神力+2，沉默倾向+1。
+    effects:
+      - changePower: 2
+      - addTendency: silent
+      - setFlag: { flag: human-trace-found, value: true }
+    resultText:
+      - 你把根须收回树下。世界没有因此停止，只是把答案推到更近处。

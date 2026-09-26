@@ -1,0 +1,33 @@
+id: R06
+kind: random
+title: 猎人争夺猎物
+body:
+  - 两名猎人为了归属争吵，岑让他们把猎物拖到树下。
+phaseIds: [tribe-management]
+priority: 10
+once: true
+weight: 2
+trigger:
+  moduleAccessAtLeast: { module: tribe, level: full }
+options:
+  - id: fair-sign
+    label: 公平征兆
+    preview: 神力-4，稳定+4。
+    effects:
+      - changePower: -4
+      - changeStability: 4
+      - addTendency: guardian
+    resultText: [一片叶落在应分的一侧。争吵没有完全停止，但岑有了裁断理由。]
+  - id: back-cen
+    label: 偏向岑的判断
+    preview: 岑影响力+4。
+    effects:
+      - changeCharacter: { character: cen, stat: influence, amount: 4 }
+    resultText: [岑的判断得到神意支持，他在部落中的声音更稳。]
+  - id: ignore
+    label: 不管
+    preview: 稳定-2。
+    effects:
+      - changeStability: -2
+      - addTendency: silent
+    resultText: [争吵由人自己解决，裂痕也留在人群中。]

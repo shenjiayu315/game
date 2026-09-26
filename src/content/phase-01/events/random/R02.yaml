@@ -1,0 +1,32 @@
+id: R02
+kind: random
+title: 芒留下草结
+body:
+  - 芒在树根上系了一个草结。那似乎是她给自己看的记号。
+phaseIds: [private-offering]
+priority: 10
+once: true
+weight: 3
+trigger:
+  phase: private-offering
+options:
+  - id: answer
+    label: 轻轻回应
+    preview: 神力-2，感应+6。
+    effects:
+      - changePower: -2
+      - changeCharacter: { character: mang, stat: resonance, amount: 6 }
+    resultText: [草结在无风时晃动。芒下次回来时会更确信这不是偶然。]
+  - id: keep
+    label: 保留草结
+    preview: 增加一段记忆。
+    effects:
+      - addMemory: { character: mang, text: 她把草结留在根上，树没有拒绝。 }
+    resultText: [你没有回应，但也没有拒绝。这个小记号留了下来。]
+  - id: erase
+    label: 抹去草结
+    preview: 恐惧+4。
+    effects:
+      - changeCharacter: { character: mang, stat: fear, amount: 4 }
+      - addTendency: dread
+    resultText: [草结断开落入泥里。芒会把这当成警告。]

@@ -1,0 +1,57 @@
+id: F11
+kind: fixed
+title: 不是野兽的足迹
+body:
+  - 南坡泥地里出现成排脚印。
+  - 它们绕过兽道，停在能望见营地的高处，然后退向北方。
+phaseIds: [war-clouds]
+priority: 95
+once: true
+trigger:
+  any:
+    - tribePlansAtLeast: 2
+    - dateAtLeast: 54
+deadlineDay: 56
+options:
+  - id: root-track
+    label: 用根须追索北方
+    preview: 神力-6；威胁线索+2，北方林缘进入感知。
+    requirements:
+      resourceAtLeast: { resource: power, value: 6 }
+    effects:
+      - changePower: -6
+      - changeFlag: { flag: threat-clues, amount: 2 }
+      - setRegionKnowledge: { region: northern-edge, knowledge: sensed }
+    resultText:
+      - 根须触到北方冷土。那不是野兽，是会观察营地的人。
+  - id: send-patrol
+    label: 催促部落立即巡查
+    preview: 巡查分数+10；岑信任+3。
+    effects:
+      - setFlag: { flag: oracle, value: patrol }
+      - changeFlag: { flag: threat-clues, amount: 1 }
+      - changeCharacter: { character: cen, stat: trust, amount: 3 }
+    resultText:
+      - 岑立刻安排人手。他不喜欢恐慌，但更不喜欢看不见的威胁。
+  - id: hide-and-gather
+    label: 隐去发现，继续积蓄神力
+    preview: 神力+2；威胁仍按日期推进。
+    effects:
+      - changePower: 2
+      - changeFlag: { flag: threat-clues, amount: 1 }
+      - addTendency: silent
+    resultText:
+      - 你没有警告他们。北方的脚印不会因此消失，只是暂时没有成为部落的恐慌。
+  - id: wrath-sign
+    label: 显示愤怒的征兆
+    preview: 神力-5；集体恐惧+6，获得预备神迹标记。
+    requirements:
+      resourceAtLeast: { resource: power, value: 5 }
+    effects:
+      - changePower: -5
+      - changeCollectiveFear: 6
+      - setFlag: { flag: prepared-miracle, value: true }
+      - changeFlag: { flag: threat-clues, amount: 1 }
+      - addTendency: dread
+    resultText:
+      - 树影压向北方。部落不知道敌人是谁，却知道神树已经愤怒。

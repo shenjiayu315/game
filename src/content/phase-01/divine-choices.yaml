@@ -1,0 +1,129 @@
+divineChoices:
+  - id: early-divine-focus
+    title: 神意在根须间游移
+    body:
+      - 没有人呼唤你。灵气、潮意、兽道和沉默同时抵达根端。
+      - 接下来数日，神树只能把注意力投向少数方向。
+    phaseIds: [tree-awakening, roots-in-woods, mang-arrival, private-offering, distant-tribe]
+    priority: 40
+    options:
+      - id: gather-aura
+        label: 收拢散失灵气
+        preview: 神力+2；当前神意改为聚灵，持续获得额外神力。
+        costHint: 保留外界线索
+        impactHint: 神树成长
+        relatedModules: [tree]
+        effects:
+          - changePower: 2
+          - addTendency: guardian
+        ongoingEffects:
+          - changePower: 0.4
+        resultText:
+          - 你把根端收回更深的黑土，散乱灵气重新向树身回流。
+      - id: follow-water
+        label: 让根须追随潮意
+        preview: 神力-1；清溪方向每日探索+4。
+        costHint: 神力-1
+        impactHint: 地图探索
+        relatedModules: [map]
+        effects:
+          - changePower: -1
+          - openModule: { module: map, access: partial }
+          - setRegionKnowledge: { region: clear-stream, knowledge: trace }
+        ongoingEffects:
+          - changeRegionExploration: { region: clear-stream, amount: 4 }
+        resultText:
+          - 根须追着潮湿气息向低处延展。那不是完整的地区，只是一条越来越清晰的水意。
+      - id: search-blood
+        label: 追索泥土里的血腥气
+        preview: 神力-1；南坡探索+8，并更早接近人类线索。
+        costHint: 神力-1
+        impactHint: 人物线索
+        relatedModules: [map, characters]
+        effects:
+          - changePower: -1
+          - openModule: { module: map, access: partial }
+          - setRegionKnowledge: { region: south-slope, knowledge: trace }
+          - changeRegionExploration: { region: south-slope, amount: 8 }
+          - changeFlag: { flag: human-trace, amount: 1 }
+        ongoingEffects:
+          - changeRegionExploration: { region: south-slope, amount: 3 }
+        resultText:
+          - 断草、泥点和血气在根须下连成一条短促的轨迹。有什么会从那里来到树下。
+      - id: silent-watch
+        label: 暂时不惊动任何东西
+        preview: 不消耗神力；沉默倾向提高，并获得观察线索。
+        impactHint: 保留力量
+        relatedModules: [tree, characters]
+        effects:
+          - addTendency: silent
+          - changeFlag: { flag: watched-silently, amount: 1 }
+          - addActivity: { text: 你保持沉默，让林地自己显露变化。 }
+        ongoingEffects:
+          - changePower: 0.1
+        resultText:
+          - 你没有伸出更远的根。沉默反而让更细小的震动变得可辨。
+  - id: human-divine-focus
+    title: 人类在树影外徘徊
+    body:
+      - 芒已经知道古树并非死物，但她仍无法确定该如何理解你。
+      - 神意可以继续向地底延伸，也可以主动投向她的梦中。
+    phaseIds: [mang-arrival, private-offering, distant-tribe]
+    priority: 45
+    trigger:
+      relationAtLeast: { character: mang, stat: resonance, value: 10 }
+    options:
+      - id: gentle-dream
+        label: 给芒一个温和梦兆
+        preview: 神力-3；芒信任提高，感应缓慢提高。
+        costHint: 神力-3
+        impactHint: 信任与中介
+        relatedModules: [characters, faith]
+        effects:
+          - changePower: -3
+          - changeCharacter: { character: mang, stat: trust, amount: 5 }
+          - addTendency: guardian
+        ongoingEffects:
+          - changeCharacter: { character: mang, stat: resonance, amount: 1 }
+        resultText:
+          - 芒在梦里看见雨水落在叶背，却没有一滴打湿伤处。她醒来时不再只把树影当作偶然。
+      - id: severe-sign
+        label: 展示不可冒犯的征兆
+        preview: 神力-2；芒恐惧提高，信仰与威慑更容易形成。
+        costHint: 神力-2
+        impactHint: 恐惧与服从
+        relatedModules: [characters, faith]
+        effects:
+          - changePower: -2
+          - changeCharacter: { character: mang, stat: fear, amount: 6 }
+          - addTendency: dread
+        ongoingEffects:
+          - changeCollectiveFear: 0.2
+        resultText:
+          - 夜里无风，枝叶却在她头顶忽然压低。芒明白，树可以庇护，也可以审视。
+      - id: guide-her-steps
+        label: 暗示她带回水源线索
+        preview: 神力-2；清溪方向探索提高，并让芒更像中介。
+        costHint: 神力-2
+        impactHint: 人物推动地图
+        relatedModules: [characters, map]
+        effects:
+          - changePower: -2
+          - changeRegionExploration: { region: clear-stream, amount: 12 }
+          - changeCharacter: { character: mang, stat: influence, amount: 3 }
+        ongoingEffects:
+          - changeRegionExploration: { region: clear-stream, amount: 2 }
+        resultText:
+          - 芒反复梦见低地的水声。她并不知道那是神谕，还是自己终于听懂了树。
+      - id: hoard-power
+        label: 收回神意积蓄力量
+        preview: 神力+3；停止主动干预，保留后续神迹余量。
+        impactHint: 神力储备
+        relatedModules: [tree]
+        effects:
+          - changePower: 3
+          - addTendency: silent
+        ongoingEffects:
+          - changePower: 0.2
+        resultText:
+          - 你让树影重新归于寂静。芒会自己解释沉默，而神力继续在树身中沉积。

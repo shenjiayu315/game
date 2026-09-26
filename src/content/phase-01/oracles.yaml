@@ -1,0 +1,31 @@
+oracles:
+  - id: food
+    label: 优先储粮
+    description: 部落更倾向采集、狩猎和保守使用祭品。
+    effects:
+      - setOracle: food
+      - setTribeNeed: [粮食, 安全]
+  - id: heal
+    label: 先照料伤者
+    description: 部落更倾向留营照护，稳定较容易恢复。
+    effects:
+      - setOracle: heal
+      - setTribeNeed: [伤病, 粮食]
+  - id: explore
+    label: 探索周边
+    description: 部落更愿意派人沿清溪、南坡和林缘行动。
+    effects:
+      - setOracle: explore
+      - setTribeNeed: [方向, 风险]
+  - id: patrol
+    label: 加强警戒
+    description: 部落更倾向巡查、守夜和提前准备冲突。
+    effects:
+      - setOracle: patrol
+      - setTribeNeed: [安全, 粮食]
+  - id: autonomy
+    label: 让部落自行决定
+    description: 神树不设置持续方向，部落更多受芒、岑与现实需求影响。
+    effects:
+      - setOracle: autonomy
+      - setTribeNeed: [粮食, 伤病]

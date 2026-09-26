@@ -1,0 +1,34 @@
+id: R07
+kind: random
+title: 根旁少了一袋粮
+body:
+  - 准备献给神树的一袋粮食不见了，族人开始互相怀疑。
+phaseIds: [tribe-management]
+priority: 10
+once: true
+weight: 2
+trigger:
+  moduleAccessAtLeast: { module: faith, level: full }
+options:
+  - id: forgive
+    label: 宽恕
+    preview: 粮食-3，稳定+2。
+    effects:
+      - changeFood: -3
+      - changeStability: 2
+      - addTendency: guardian
+    resultText: [粮食没有回来，但部落少了一场惩罚。]
+  - id: punish
+    label: 惩戒
+    preview: 神力-3，集体恐惧+6。
+    effects:
+      - changePower: -3
+      - changeCollectiveFear: 6
+      - addTendency: dread
+    resultText: [树根震动，偷拿者不敢再靠近。其他人也记住了这份恐惧。]
+  - id: investigate
+    label: 查明原因
+    preview: 威胁线索+1。
+    effects:
+      - changeFlag: { flag: threat-clues, amount: 1 }
+    resultText: [痕迹不只通向营内，也通向更远的北侧灌木。]

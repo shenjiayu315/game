@@ -1,0 +1,39 @@
+version: text-dynamic-0.1.1-dynamic-interaction
+initial:
+  tree:
+    power: 6
+    powerCap: 24
+    stage: 初醒
+    perception: 1
+    miracleTier: 微弱
+    auraSources:
+      - id: tree-body
+        label: 树身灵气
+        amount: 0.6
+        module: tree
+      - id: ancient-woods
+        label: 古树林地灵气
+        amount: 0.4
+        module: map
+  tribe:
+    name: 溪原部
+    population: 18
+    food: 52
+    baseProduction: 4
+    baseConsumption: 4.5
+    productionBonus: 0
+    injuries: 2
+    stability: 56
+    labor: 紧张
+    needs: [粮食, 伤病]
+    currentAction: 维持采集
+  faith:
+    believers: 0
+    visibility: none
+    intensity: 0
+    offeringCost: 0
+    collectiveFaith: 0
+    collectiveFear: 0
+    interpreter: null
+    interpretationControl: 0
+    ritual: 无

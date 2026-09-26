@@ -1,0 +1,70 @@
+id: F06
+kind: fixed
+title: 树下的人群
+body:
+  - 芒再次出现时，身后跟着十余个人。
+  - 领头的男人没有跪下。他先查看树根、土地和芒的伤口，然后问：这里究竟有什么？
+phaseIds: [tribe-arrival]
+priority: 100
+once: true
+trigger:
+  any:
+    - dateAtLeast: 34
+    - eventHandled: F05
+deadlineDay: 38
+options:
+  - id: leaves-around-mang
+    label: 以落叶环绕芒
+    preview: 神力-4；芒影响力提高，集体信仰+5。
+    requirements:
+      resourceAtLeast: { resource: power, value: 4 }
+    effects:
+      - changePower: -4
+      - setCharacterKnowledge: { character: cen, knowledge: mentioned }
+      - openModule: { module: tribe, access: partial }
+      - changeCharacter: { character: mang, stat: trust, amount: 5 }
+      - changeCharacter: { character: mang, stat: influence, amount: 6 }
+      - changeCharacter: { character: cen, stat: trust, amount: 3 }
+      - changeCollectiveFaith: 5
+    resultText:
+      - 落叶围住芒，她成了众人理解神树的第一道桥。
+  - id: roots-rise
+    label: 让根须在众人面前隆起
+    preview: 神力-6；岑恐惧+8，集体恐惧+10。
+    requirements:
+      resourceAtLeast: { resource: power, value: 6 }
+    effects:
+      - changePower: -6
+      - setCharacterKnowledge: { character: cen, knowledge: mentioned }
+      - openModule: { module: tribe, access: partial }
+      - changeCharacter: { character: cen, stat: fear, amount: 8 }
+      - changeCollectiveFear: 10
+      - addTendency: dread
+      - addTendency: dread
+    resultText:
+      - 人群后退，岑没有跪下，但他开始把这棵树当作不可轻忽的力量。
+  - id: touch-cen
+    label: 只回应岑的触碰
+    preview: 神力-3；岑感应与信任提高，芒影响力略降。
+    requirements:
+      resourceAtLeast: { resource: power, value: 3 }
+    effects:
+      - changePower: -3
+      - setCharacterKnowledge: { character: cen, knowledge: known }
+      - openModule: { module: tribe, access: partial }
+      - changeCharacter: { character: cen, stat: resonance, amount: 10 }
+      - changeCharacter: { character: cen, stat: trust, amount: 5 }
+      - changeCharacter: { character: mang, stat: influence, amount: -2 }
+    resultText:
+      - 岑的手贴上树皮时感到震动。他仍怀疑芒的解释，却承认这里有回应。
+  - id: no-response
+    label: 不作回应
+    preview: 芒依据既有关系解释；岑信任-2，沉默倾向+2。
+    effects:
+      - setCharacterKnowledge: { character: cen, knowledge: mentioned }
+      - openModule: { module: tribe, access: partial }
+      - changeCharacter: { character: cen, stat: trust, amount: -2 }
+      - addTendency: silent
+      - addTendency: silent
+    resultText:
+      - 芒替沉默寻找意义。岑没有被说服，但人群已经看见她为何回来。

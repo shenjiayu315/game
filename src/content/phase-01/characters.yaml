@@ -1,0 +1,23 @@
+characters:
+  - id: mang
+    name: 芒
+    mentionName: 受伤的陌生人
+    role: 采集者与最初见证者
+    need: 确认神树是否真的回应人
+    location: ancient-woods
+    resonance: 0
+    trust: 0
+    fear: 0
+    influence: 8
+    knowledge: hidden
+  - id: cen
+    name: 岑
+    mentionName: 溪原部领头人
+    role: 溪原部当前领头人
+    need: 食物、秩序和可验证的结果
+    location: ancient-woods
+    resonance: 0
+    trust: 4
+    fear: 4
+    influence: 36
+    knowledge: hidden

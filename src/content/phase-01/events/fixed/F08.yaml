@@ -1,0 +1,49 @@
+id: F08
+kind: fixed
+title: 第一项部落请求
+body:
+  - 岑把部落眼下能做的事一件件说出。
+  - 他没有把决定完全交给你，但所有人都在等待神树是否给出方向。
+phaseIds: [tribe-management]
+priority: 90
+once: true
+trigger:
+  any:
+    - phase: tribe-management
+    - dateAtLeast: 43
+deadlineDay: 45
+options:
+  - id: food-first
+    label: 优先寻找食物
+    preview: 下一轮采集和狩猎分数+8，岑信任+4。
+    effects:
+      - setFlag: { flag: oracle, value: food }
+      - changeCharacter: { character: cen, stat: trust, amount: 4 }
+    resultText:
+      - 岑听懂了这道方向：先让族人活下去。
+  - id: heal-first
+    label: 先照料伤者
+    preview: 照料行动分数+10，芒信任+4。
+    effects:
+      - setFlag: { flag: oracle, value: heal }
+      - changeCharacter: { character: mang, stat: trust, amount: 4 }
+      - addTendency: guardian
+    resultText:
+      - 芒把树叶的方向解释为怜悯，伤者家属第一次在树下低头。
+  - id: worship-first
+    label: 先扩大祭祀
+    preview: 祭祀行动分数+10，芒影响力+4，但粮食压力增加。
+    effects:
+      - setFlag: { flag: oracle, value: worship }
+      - changeCharacter: { character: mang, stat: influence, amount: 4 }
+      - changeFood: -2
+    resultText:
+      - 供奉的讨论提前升温，粮食压力也随之进入每个人的心里。
+  - id: self-decide
+    label: 让他们自行决定
+    preview: 不加行动分；根据部落评分执行，沉默倾向+1。
+    effects:
+      - setFlag: { flag: oracle, value: none }
+      - addTendency: silent
+    resultText:
+      - 岑把沉默理解为由人自己承担决定，芒则继续寻找树叶中的暗示。

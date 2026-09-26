@@ -1,0 +1,45 @@
+regions:
+  - id: ancient-woods
+    name: 古树林地
+    traceName: 树下黑土
+    initialKnowledge: known
+    initialConnection: stable
+    exploration: 100
+    aura: 0.4
+    risk: 野兽偶尔穿行
+    resource: 树荫、浅层灵气、旧兽径
+    controller: 神树本体
+    notes: [神树所在地，根系连接稳定。]
+  - id: clear-stream
+    name: 清溪滩
+    traceName: 潮湿水意
+    initialKnowledge: unknown
+    initialConnection: none
+    exploration: 0
+    aura: 0.4
+    risk: 低地涨水
+    resource: 水源、黏土、采集地
+    controller: 未定
+    notes: []
+  - id: south-slope
+    name: 南坡猎场
+    traceName: 断草兽道
+    initialKnowledge: unknown
+    initialConnection: none
+    exploration: 0
+    aura: 0.3
+    risk: 野兽与落石
+    resource: 猎物、石刃材料、坡地视野
+    controller: 未定
+    notes: []
+  - id: northern-edge
+    name: 北方林缘
+    traceName: 北方烟味
+    initialKnowledge: unknown
+    initialConnection: none
+    exploration: 0
+    aura: 0
+    risk: 陌生人活动
+    resource: 战前线索
+    controller: 未定
+    notes: []

@@ -1,0 +1,33 @@
+id: R04
+kind: random
+title: 陶碗中的水
+body:
+  - 芒又带来一只陶碗，里面只有半碗清水。
+phaseIds: [private-offering]
+priority: 10
+once: true
+weight: 2
+trigger:
+  phase: private-offering
+options:
+  - id: accept
+    label: 接受
+    preview: 信任+3。
+    effects:
+      - changeCharacter: { character: mang, stat: trust, amount: 3 }
+    resultText: [水留在根边。芒像松了一口气。]
+  - id: return-leaf
+    label: 返还花叶
+    preview: 神力-2，信任+6。
+    effects:
+      - changePower: -2
+      - changeCharacter: { character: mang, stat: trust, amount: 6 }
+      - addTendency: guardian
+    resultText: [一片叶落进碗中，又被根须推回她手边。]
+  - id: spill
+    label: 打翻
+    preview: 恐惧+5。
+    effects:
+      - changeCharacter: { character: mang, stat: fear, amount: 5 }
+      - addTendency: dread
+    resultText: [水渗进泥里。芒低头退开。]
